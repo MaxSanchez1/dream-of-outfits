@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>This is still the Astralis fanpage site</h1>
+    <h3>{{ title|capfirst|upper }} </h3>
+    <p>This is a template (Big Brain Move)</p>
+
+    <p>
+        {{ my_number }}, {{ my_list }}
+        {{ my_html|striptags|slugify }}
+    </p>
+
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+    </ul>
+
+    <ul>
+    {% for abc in my_list %}
+        {% if abc == "what" %}
+            <li>{{forloop.counter}} - {{ abc|add:"Pog" }}</li>
+        {% elif abc == "happening" %}
+            <li>{{forloop.counter}} - {{ abc|add:"Pepothink" }}</li>
+        {% else %}
+            <li>{{forloop.counter}} - {{ abc }}</li>
+
+
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+{% endblock %}

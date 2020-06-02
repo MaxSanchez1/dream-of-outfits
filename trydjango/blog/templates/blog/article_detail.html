@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href='../'>Go back to the main list!<br /></a>
+<a href='update/'>Edit this article</a>
+<h1>{{ object.title }}</h1>
+<p> Published: {{ object.date }}
+
+</p>
+<p>
+    {{ object.content }}
+</p>
+
+{% endblock %}
