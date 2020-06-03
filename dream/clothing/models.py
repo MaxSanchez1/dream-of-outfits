@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Outfit(models.Model):
@@ -10,6 +11,8 @@ class Outfit(models.Model):
     shoes = models.CharField(max_length=120)
 
     # optional (blank=True)
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    # creation_date = models.DateTimeField(auto_now_add=True)
     jacket = models.CharField(max_length=120, blank=True)
     socks = models.CharField(max_length=120, blank=True)
     hat = models.CharField(max_length=120, blank=True)

@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<h1>List of all Outfits</h1>
+<h1>Your Outfits</h1>
 
 {% for instance in object_list %}
 
-<p> {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a>
+<p> Unique Outfit ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a>
 
 
 {% endfor %}

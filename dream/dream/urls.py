@@ -21,6 +21,7 @@ from pages.views import home_view, about_view
 urlpatterns = [
     path('clothing/', include('clothing.urls')),
     path('profiles/', include('profiles.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('feed/', include('feed.urls')),
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
