@@ -12,7 +12,7 @@ class OutfitModelForm(forms.ModelForm):
                   'top',
                   'bottom',
                   'shoes',
-                  'jacket',
-                  'socks',
-                  'hat',
+                  # 'jacket',
+                  # 'socks',
+                  # 'hat',
                   ]

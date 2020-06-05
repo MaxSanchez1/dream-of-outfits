@@ -19,6 +19,5 @@ class OutfitListView(ListView, LoginRequiredMixin):
         return Outfit.objects.filter(creator=self.request.user)
 
 
-
 class OutfitDetailView(DetailView):
     model = Outfit

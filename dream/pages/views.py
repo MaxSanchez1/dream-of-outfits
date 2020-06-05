@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
+from .forms import UserCreationFormWithName
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
 
@@ -18,7 +18,7 @@ def about_view(request, *args, **kwargs):
 
 def register_view(request, *args, **kwargs):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = UserCreationFormWithName(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -28,5 +28,5 @@ def register_view(request, *args, **kwargs):
             for msg in form.error_messages:
                 print(form.error_messages[msg])
             return render(request, 'registration/register.html', context={"form": form})
-    form = UserCreationForm
+    form = UserCreationFormWithName
     return render(request, 'registration/register.html', context={"form": form})
