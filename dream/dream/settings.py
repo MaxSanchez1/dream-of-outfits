@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'pages',
-    'profiles',
     'clothing',
     'feed',
+    'userprofiles',
 ]
 
 MIDDLEWARE = [

@@ -14,6 +14,9 @@ class Article(models.Model):
     pattern = models.CharField(max_length=60, blank=True)
     material = models.CharField(max_length=60, blank=True)
 
+    # experimental liking field
+    favorited_by = models.ManyToManyField(User, blank=True, related_name="article_favorited_by")
+
     def get_absolute_url(self):
         return reverse('clothing:article-detail', kwargs={"pk": self.pk})
 
@@ -36,6 +39,7 @@ class Outfit(models.Model):
     # socks = models.CharField(max_length=120, blank=True)
     # hat = models.CharField(max_length=120, blank=True)
     # description = models.TextField(blank=True)
+    favorited_by = models.ManyToManyField(User, blank=True, related_name="outfit_favorited_by")
 
     def get_absolute_url(self):
         # self.id is referring to the instance of the object

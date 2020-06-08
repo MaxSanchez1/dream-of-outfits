@@ -20,7 +20,7 @@ from pages.views import home_view, about_view, register_view
 
 urlpatterns = [
     path('clothing/', include('clothing.urls')),
-    path('profiles/', include('profiles.urls')),
+    path('userprofiles/', include('userprofiles.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('feed/', include('feed.urls')),
     path('register/', register_view, name='register-view'),
