@@ -19,5 +19,16 @@ class OutfitListView(ListView, LoginRequiredMixin):
         return Outfit.objects.filter(creator=self.request.user)
 
 
-class OutfitDetailView(DetailView):
+class OutfitDetailView(DetailView, LoginRequiredMixin):
     model = Outfit
+
+
+class FavoritedOutfitListView(ListView, LoginRequiredMixin):
+    template_name = 'clothing/favorited_outfit_list.html'
+
+    # using related_names to get that query of outfits that the user has favorited
+    def get_queryset(self):
+        return self.request.user.outfit_favorited_by.all()
+
+
+# class FavoritedArticleListView()
