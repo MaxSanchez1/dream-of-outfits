@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p> This is just for debugging </p>
+
+{% for instance in object_list %}
+
+<p> Unique Profile ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.user.first_name }} {{ instance.user.last_name }}</a></p>
+
+{% endfor %}
+
+{% endblock %}
