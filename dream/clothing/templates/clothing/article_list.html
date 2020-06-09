@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Your Clothes</h1>
+
+{% for instance in object_list %}
+
+<p> Unique Outfit ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a>
+
+{% endfor %}
+
+{% endblock %}

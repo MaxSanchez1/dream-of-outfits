@@ -9,11 +9,11 @@ from django.views.generic import (
 )
 
 from .models import Outfit
+from .models import Article
 from .forms import OutfitModelForm
 
 
 class OutfitListView(ListView, LoginRequiredMixin):
-
     # this is going to be only the outfits that the user has made
     def get_queryset(self):
         return Outfit.objects.filter(creator=self.request.user)
@@ -31,4 +31,13 @@ class FavoritedOutfitListView(ListView, LoginRequiredMixin):
         return self.request.user.outfit_favorited_by.all()
 
 
-# class FavoritedArticleListView()
+class ArticleListView(ListView, LoginRequiredMixin):
+    def get_queryset(self):
+        return Article.objects.filter(creator=self.request.user)
+
+
+class ArticleDetailView(DetailView, LoginRequiredMixin):
+    model = Article
+
+
+

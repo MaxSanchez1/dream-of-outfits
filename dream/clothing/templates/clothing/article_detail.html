@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ object.color }} {{ object.clothing_type }}</h1>
+<ul>
+    <li>Owner: {{ object.creator }}</li>
+    <li>Clothing Type: {{object.clothing_type }}</li>
+    <li>Color: {{ object.color }}</li>
+    <li>Cut: {{ object.cut }}</li>
+    <li>Pattern: {{ object.pattern }}</li>
+    <li>Material: {{ object.material }}</li>
+</ul>
+
+{% endblock %}
+
