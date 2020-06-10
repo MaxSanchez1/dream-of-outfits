@@ -40,4 +40,12 @@ class ArticleDetailView(DetailView, LoginRequiredMixin):
     model = Article
 
 
+class FavoritedArticleListView(ListView, LoginRequiredMixin):
+    template_name = 'clothing/favorited_article_list.html'
+
+    # using related_names to get that query of outfits that the user has favorited
+    def get_queryset(self):
+        return self.request.user.article_favorited_by.all()
+
+
 

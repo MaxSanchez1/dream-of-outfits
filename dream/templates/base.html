@@ -3,15 +3,20 @@
 
 <ul>
   <li><a>View Outfits (Just shows all outfits for now)</a></li>
+  <li><a href="/userprofiles/my-profile">Your Profile</a></li>
   <li><a href="/clothing/closet">Your Clothes</a></li>
   <li><a href="/clothing">Your Outfits</a></li>
+  <li><a href="/clothing/favorite-articles">Favorite Clothes</a></li>
+  <li><a href="/clothing/favorite-outfits">Favorite Outfits</a></li>
   <li><a href="/about">About</a></li>
 </ul>
 
 <ul>
   {% if user.is_authenticated %}
     <li>User: {{ user.get_username }}</li>
-    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+    <li><a href="{% url 'logout'%}">Logout</a></li>
+  {% elif 'logout' in request.path %}
+    <!-- I want nothing to happen here -->
   {% else %}
     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
   {% endif %}

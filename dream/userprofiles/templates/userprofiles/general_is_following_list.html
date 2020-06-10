@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ u_name }} is following these users:</h1>
+
+{% for instance in object_list %}
+
+<p><a href='{{ instance.get_absolute_url }}'>{{ instance.user.username }} </a>
+
+{% endfor %}
+
+{% endblock %}

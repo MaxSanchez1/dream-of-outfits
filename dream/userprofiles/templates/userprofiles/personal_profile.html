@@ -2,12 +2,13 @@
 
 {% block content %}
 
-<h1>{{ username }}'s profile:</h1>
+<h1>Your Profile!</h1>
 
 <p>Profile Picture: to_be_added.jpeg</p>
+<p>username: {{ username }}</p>
 <p>Name: {{ name }} </p>
 <p></p><a href="following/">Following</a>: {{ following }}</p>
 <p></p><a href="followed-by/">Followed By</a>: {{ followedby }}</p>
+<p>Want to edit your profile? Too bad, doesn't exist yet.</p>
 
 {% endblock %}
-
