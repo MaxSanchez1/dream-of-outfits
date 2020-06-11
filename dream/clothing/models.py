@@ -34,7 +34,7 @@ class Outfit(models.Model):
     # below just commented out for simplicity's sake while I figure out how this database is structured
     # # optional (blank=True)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    # # creation_date = models.DateTimeField(auto_now_add=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
     # jacket = models.CharField(max_length=120, blank=True)
     # socks = models.CharField(max_length=120, blank=True)
     # hat = models.CharField(max_length=120, blank=True)

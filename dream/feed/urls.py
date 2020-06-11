@@ -1,10 +1,9 @@
 from django.urls import path
 
-# import views here once they're added
-# from .views import ()
+from .views import FeedView
 
 
 app_name = 'feed'
 urlpatterns = [
-
+    path('', FeedView.as_view(), name='feed-view'),
 ]
