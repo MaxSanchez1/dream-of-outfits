@@ -48,4 +48,16 @@ class FavoritedArticleListView(ListView, LoginRequiredMixin):
         return self.request.user.article_favorited_by.all()
 
 
+class CreateOutfitView(CreateView, LoginRequiredMixin):
+    template_name = 'clothing/create_new_outfit.html'
+    model = Outfit
+    form_class = OutfitModelForm
+
+    # this is needed so that the form can assign a creator
+    def get_form_kwargs(self):
+        kwargs = super(CreateOutfitView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
 
