@@ -11,6 +11,7 @@ from django.views.generic import (
 from .models import Outfit
 from .models import Article
 from .forms import OutfitModelForm
+from .forms import ArticleModelForm
 
 
 class OutfitListView(ListView, LoginRequiredMixin):
@@ -56,6 +57,18 @@ class CreateOutfitView(CreateView, LoginRequiredMixin):
     # this is needed so that the form can assign a creator
     def get_form_kwargs(self):
         kwargs = super(CreateOutfitView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class CreateArticleView(CreateView, LoginRequiredMixin):
+    template_name = 'clothing/create_new_article.html'
+    model = Article
+    form_class = ArticleModelForm
+
+    # this is needed so that the form can assign a creator
+    def get_form_kwargs(self):
+        kwargs = super(CreateArticleView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 

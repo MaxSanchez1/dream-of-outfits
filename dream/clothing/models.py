@@ -4,9 +4,16 @@ from django.contrib.auth.models import User
 
 
 class Article(models.Model):
+    location_choices = (
+        ('TOP', 'Top'),
+        ('BTM', 'Bottom'),
+        ('SHS', 'Shoes'),
+    )
+
     # mandatory
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    clothing_type = models.CharField(max_length=60)  # pants, shirt, dress
+    actual_location = models.CharField(max_length=60, choices=location_choices, default='None', null=True)
+    clothing_type = models.CharField(max_length=60)  # henley, jeans, sneakers
     color = models.CharField(max_length=20)
 
     # optional
@@ -31,7 +38,6 @@ class Outfit(models.Model):
     bottom = models.ForeignKey('Article', on_delete=models.SET_NULL, related_name="outfit_bottom", null=True)
     shoes = models.ForeignKey('Article', on_delete=models.SET_NULL , related_name="outfit_shoes", null=True)
 
-    # below just commented out for simplicity's sake while I figure out how this database is structured
     # # optional (blank=True)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)

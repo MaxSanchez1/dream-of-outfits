@@ -9,6 +9,7 @@ from .views import (
     ArticleDetailView,
     FavoritedArticleListView,
     CreateOutfitView,
+    CreateArticleView,
 )
 
 
@@ -21,4 +22,5 @@ urlpatterns = [
     path('closet/<int:pk>/', ArticleDetailView.as_view(), name='article-detail'),
     path('favorite-articles/', FavoritedArticleListView.as_view(), name='favorite-article-list'),
     path('create-outfit/', CreateOutfitView.as_view(), name='create-new-outfit'),
+    path('closet/create-article/', CreateArticleView.as_view(), name='create-new-article'),
 ]
