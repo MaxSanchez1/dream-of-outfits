@@ -6,6 +6,7 @@ from django.views.generic import (
     ListView,
     UpdateView,
     DeleteView,
+    RedirectView,
 )
 
 from .models import Outfit
@@ -39,6 +40,25 @@ class ArticleListView(ListView, LoginRequiredMixin):
 
 class ArticleDetailView(DetailView, LoginRequiredMixin):
     model = Article
+
+    def get_context_data(self, **kwargs):
+        obj = get_object_or_404(Article, pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['is_favorited'] = self.request.user in obj.favorited.all()
+        return context
+
+
+class ArticleFavoriteToggle(RedirectView, LoginRequiredMixin):
+    def get_redirect_url(self, *args, **kwargs):
+        obj = get_object_or_404(Article, pk=self.kwargs.get('pk'))
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        # make this user like this article
+        if user in obj.favorited.all():
+            obj.favorited.remove(user)
+        else:
+            obj.favorited.add(user)
+        return url_
 
 
 class FavoritedArticleListView(ListView, LoginRequiredMixin):

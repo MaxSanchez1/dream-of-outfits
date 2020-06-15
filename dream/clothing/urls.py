@@ -10,6 +10,7 @@ from .views import (
     FavoritedArticleListView,
     CreateOutfitView,
     CreateArticleView,
+    ArticleFavoriteToggle,
 )
 
 
@@ -20,6 +21,7 @@ urlpatterns = [
     path('favorite-outfits/', FavoritedOutfitListView.as_view(), name='favorite-outfit-list'),
     path('closet/', ArticleListView.as_view(), name='clothing-list'),
     path('closet/<int:pk>/', ArticleDetailView.as_view(), name='article-detail'),
+    path('closet/<int:pk>/favorite/', ArticleFavoriteToggle.as_view(), name='article-favorite-toggle'),
     path('favorite-articles/', FavoritedArticleListView.as_view(), name='favorite-article-list'),
     path('create-outfit/', CreateOutfitView.as_view(), name='create-new-outfit'),
     path('closet/create-article/', CreateArticleView.as_view(), name='create-new-article'),
