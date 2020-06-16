@@ -3,6 +3,11 @@
 {% block content %}
 <h1>{{ object.title }}</h1>
 <p>Made by {{ object.creator }}</p>
+{% if is_favorited %}
+    <p>You have already favorited this: <a href="favorite/">Unfavorite</a></p>
+{% else %}
+<p>You have not favorited this yet: <a href="favorite/">Favorite</a></p>
+{% endif %}
 <ul>
     <li>Top: {{ object.top }}</li>
     <li>Bottom: {{object.bottom }}</li>

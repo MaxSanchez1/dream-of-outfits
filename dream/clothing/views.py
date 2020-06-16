@@ -24,6 +24,25 @@ class OutfitListView(ListView, LoginRequiredMixin):
 class OutfitDetailView(DetailView, LoginRequiredMixin):
     model = Outfit
 
+    def get_context_data(self, **kwargs):
+        obj = get_object_or_404(Outfit, pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['is_favorited'] = self.request.user in obj.favorited.all()
+        return context
+
+
+class OutfitFavoriteToggle(RedirectView, LoginRequiredMixin):
+    def get_redirect_url(self, *args, **kwargs):
+        obj = get_object_or_404(Outfit, pk=self.kwargs.get('pk'))
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        # make this user like this article
+        if user in obj.favorited.all():
+            obj.favorited.remove(user)
+        else:
+            obj.favorited.add(user)
+        return url_
+
 
 class FavoritedOutfitListView(ListView, LoginRequiredMixin):
     template_name = 'clothing/favorited_outfit_list.html'
