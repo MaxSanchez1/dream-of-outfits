@@ -9,12 +9,12 @@
 <p>You have not favorited this yet: <a href="favorite/">Favorite</a></p>
 {% endif %}
 <ul>
-    <li>Top: {{ object.top }}</li>
-    <li>Bottom: {{object.bottom }}</li>
-    <li>Shoes: {{ object.shoes }}</li>
-    <li>Jacket: {{ object.jacket }}</li>
-    <li>Socks: {{ object.socks }}</li>
-    <li>Hat: {{ object.hat }}</li>
+    <li>Top: <a href="{{ object.top.get_absolute_url }}">{{ object.top }}</a></li>
+    <li>Bottom: <a href="{{ object.bottom.get_absolute_url }}">{{ object.bottom }}</a></li>
+    <li>Shoes: <a href="{{ object.shoes.get_absolute_url }}">{{ object.shoes }}</a></li>
+    <li>Jacket: <a href="{{ object.jacket.get_absolute_url }}">{{ object.jacket }}</a></li>
+    <li>Socks: <a href="{{ object.socks.get_absolute_url }}">{{ object.socks }}</a></li>
+    <li>Hat: <a href="{{ object.hat.get_absolute_url }}">{{ object.hat }}</a></li>
 </ul>
 
 {% endblock %}
