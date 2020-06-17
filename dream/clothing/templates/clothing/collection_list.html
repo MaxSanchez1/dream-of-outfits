@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Your Collections</h1>
+<a href="create-collection/">Create a new Collection!</a>
+
+{% for instance in object_list %}
+
+<p> Unique Outfit ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.name }}</a>
+
+{% endfor %}
+
+{% endblock %}
+

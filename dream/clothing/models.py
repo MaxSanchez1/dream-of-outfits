@@ -55,3 +55,23 @@ class Outfit(models.Model):
         return self.title
 
 
+class Collection(models.Model):
+    # name of the collection
+    name = models.CharField(max_length=120)
+
+    # creator of the collection
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    # articles of clothing in the collection
+    articles = models.ManyToManyField('Article', related_name="articles_in_collection")
+
+    # outfits in the collection
+    outfits = models.ManyToManyField('Outfit', related_name="outfits_in_collection")
+
+    def get_absolute_url(self):
+        return reverse('clothing:collection-detail', kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return self.name
+
+

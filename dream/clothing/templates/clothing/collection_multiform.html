@@ -1,0 +1,12 @@
+<!-- I will eventually add the rest of the collection detail AROUND THIS CODE, testing ATM -->
+
+<b>Add an Article</b>
+<form action="{% url 'clothing:test-new-article' %}" method="post">{% csrf_token %}
+    {{ add_article_form }}
+    <input type="submit" value="Send Article">
+</form>
+<b>Add Outfit Form</b>
+<form action="{% url 'clothing:test-new-outfit' %}" method="post">{% csrf_token %}
+    {{ add_outfit_form }}
+<input type="submit" value="Send Outfit">
+</form>

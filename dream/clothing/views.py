@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -7,12 +8,18 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
     RedirectView,
+    TemplateView,
+    FormView,
 )
 
 from .models import Outfit
 from .models import Article
+from .models import Collection
 from .forms import OutfitModelForm
 from .forms import ArticleModelForm
+from .forms import CollectionModelForm
+from .forms import AddArticleForm
+from .forms import AddOutfitForm
 
 
 class OutfitListView(ListView, LoginRequiredMixin):
@@ -112,4 +119,83 @@ class CreateArticleView(CreateView, LoginRequiredMixin):
         return kwargs
 
 
+class CollectionListView(ListView, LoginRequiredMixin):
+    template_name = 'clothing/collection_list.html'
+
+    def get_queryset(self):
+        return Collection.objects.filter(creator=self.request.user)
+
+
+class CollectionDetailView(DetailView, LoginRequiredMixin):
+    template_name = 'clothing/collection_detail.html'
+    model = Collection
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        add_article_form = AddArticleForm(self.request.GET or None)
+        add_outfit_form = AddOutfitForm(self.request.GET or None)
+        context = self.get_context_data(**kwargs)
+        context['add_article_form'] = add_article_form
+        context['add_outfit_form'] = add_outfit_form
+        return self.render_to_response(context)
+
+
+class CreateCollectionView(CreateView, LoginRequiredMixin):
+    template_name = 'clothing/collection_create_new.html'
+    model = Collection
+    form_class = CollectionModelForm
+
+    # this is needed so that the form can assign a creator
+    def get_form_kwargs(self):
+        kwargs = super(CreateCollectionView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class CollectionMainDetailView(TemplateView, LoginRequiredMixin):
+    template_name = 'clothing/collection_multiform.html'
+
+    def get(self, request, *args, **kwargs):
+        add_article_form = AddArticleForm(self.request.GET or None)
+        add_outfit_form = AddOutfitForm(self.request.GET or None)
+        context = self.get_context_data(**kwargs)
+        context['add_article_form'] = add_article_form
+        context['add_outfit_form'] = add_outfit_form
+        return self.render_to_response(context)
+
+
+class AddArticleFormView(FormView, LoginRequiredMixin):
+    form_class = AddArticleForm
+    template_name = 'clothing/collection_multiform.html'
+
+    # I want this to redirect right back to the detail page of the collection
+    def get_success_url(self):
+        return reverse_lazy('clothing:collection-detail', kwargs={"pk": self.pk})
+
+    def post(self, request, *args, **kwargs):
+        article_form = self.form_class(request.POST)
+        outfit_form = AddOutfitForm()
+        if article_form.is_valid():
+            article_form.save()
+            return self.render_to_response(self.get_context_data(success=True))
+        else:
+            return self.render_to_response(self.get_context_data(article_form=article_form))
+
+
+class AddOutfitFormView(FormView, LoginRequiredMixin):
+    form_class = AddOutfitForm
+    template_name = 'clothing/collection_multiform.html'
+
+    # I want this to redirect right back to the detail page of the collection
+    def get_success_url(self):
+        return reverse_lazy('clothing:collection-detail', kwargs={"pk": self.pk})
+
+    def post(self, request, *args, **kwargs):
+        outfit_form = self.form_class(request.POST)
+        article_form = AddArticleForm()
+        if outfit_form.is_valid():
+            outfit_form.save()
+            return self.render_to_response(self.get_context_data(success=True))
+        else:
+            return self.render_to_response(self.get_context_data(outfit_form=outfit_form))
 

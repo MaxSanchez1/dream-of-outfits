@@ -12,6 +12,12 @@ from .views import (
     CreateArticleView,
     ArticleFavoriteToggle,
     OutfitFavoriteToggle,
+    CollectionListView,
+    CollectionDetailView,
+    CreateCollectionView,
+    CollectionMainDetailView,
+    AddArticleFormView,
+    AddOutfitFormView,
 )
 
 
@@ -27,4 +33,10 @@ urlpatterns = [
     path('favorite-articles/', FavoritedArticleListView.as_view(), name='favorite-article-list'),
     path('create-outfit/', CreateOutfitView.as_view(), name='create-new-outfit'),
     path('closet/create-article/', CreateArticleView.as_view(), name='create-new-article'),
+    path('collections/', CollectionListView.as_view(), name='collection-list'),
+    path('collections/<int:pk>/', CollectionDetailView.as_view(), name='collection-detail'),
+    path('collections/create-collection/', CreateCollectionView.as_view(), name='create-new-collection'),
+    path('collections/test-multiform/', CollectionMainDetailView.as_view(), name='test-multiform'),
+    path('collections/new-collection-article/', AddArticleFormView.as_view(), name='test-new-article'),
+    path('collections/new-collection-outfit/', AddOutfitFormView.as_view(), name='test-new-outfit'),
 ]

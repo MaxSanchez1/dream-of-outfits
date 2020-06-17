@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Outfit
 from .models import Article
+from .models import Collection
 
 
 class OutfitModelForm(forms.ModelForm):
@@ -60,3 +61,43 @@ class ArticleModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.creator = kwargs.pop('user', None)
         super(ArticleModelForm, self).__init__(*args, **kwargs)
+
+
+class CollectionModelForm(forms.ModelForm):
+    creator = None
+
+    # only going to allow name assignment on creation because articles and outfits
+    # are to be added in the Collection detail page instead of this form
+    class Meta:
+        model = Collection
+        fields = ['name']
+
+    def save(self):
+        # use the automatically assigned fields that get data from the form
+        obj = super(CollectionModelForm, self).save(commit=False)
+        # set the creator as the user that submitted the page
+        obj.creator = self.creator
+        obj.save()
+        return obj
+
+    def __init__(self, *args, **kwargs):
+        self.creator = kwargs.pop('user', None)
+        super(CollectionModelForm, self).__init__(*args, **kwargs)
+
+
+class AddArticleForm(forms.ModelForm):
+    class Meta:
+        model = Collection
+        fields = ['articles']
+
+    # I may have to override save to make the article stick but I'm honestly not sure
+    # I will test without and see what happens
+
+
+class AddOutfitForm(forms.ModelForm):
+    class Meta:
+        model = Collection
+        fields = ['outfits']
+
+    # I may have to override save to make the article stick but I'm honestly not sure
+    # I will test without and see what happens
