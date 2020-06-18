@@ -7,12 +7,12 @@
 <p>Articles:</p>
 <ul>
 {% for instance in object.articles.all %}
-    <li><a href="{{ object.get_absolute_url }}">{{ instance.color }} {{ instance.clothing_type }}</a></li>
+    <li><a href="{{ instance.get_absolute_url }}">{{ instance.color }} {{ instance.clothing_type }}</a></li>
 {% endfor %}
 </ul>
 
 <b>Add an Article</b>
-<form action="{% url 'clothing:test-new-article' %}" method="post">{% csrf_token %}
+<form action="" method="post">{% csrf_token %}
     {{ add_article_form }}
     <input type="submit" value="Send Article">
 </form>
@@ -20,12 +20,12 @@
 <p>Outfits:</p>
 <ul>
 {% for instance in object.outfits.all %}
-    <li><a href="{{ object.get_absolute_url }}">{{ instance.title }}</a></li>
+    <li><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></li>
 {% endfor %}
 </ul>
 
 <b>Add Outfit Form</b>
-<form action="{% url 'clothing:test-new-outfit' %}" method="post">{% csrf_token %}
+<form action="" method="post">{% csrf_token %}
     {{ add_outfit_form }}
 <input type="submit" value="Send Outfit">
 </form>

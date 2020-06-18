@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.urls import reverse
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -130,14 +132,26 @@ class CollectionDetailView(DetailView, LoginRequiredMixin):
     template_name = 'clothing/collection_detail.html'
     model = Collection
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
+    def get_context_data(self, *, object_list=None, **kwargs):
         add_article_form = AddArticleForm(self.request.GET or None)
         add_outfit_form = AddOutfitForm(self.request.GET or None)
-        context = self.get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['add_article_form'] = add_article_form
         context['add_outfit_form'] = add_outfit_form
-        return self.render_to_response(context)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        instance_ = get_object_or_404(Collection, pk=self.kwargs.get('pk'))
+        article_form = AddArticleForm(request.POST or None, instance=instance_)
+        outfit_form = AddOutfitForm(request.POST or None, instance=instance_)
+        if article_form.is_valid():
+            article_form.save()
+            return HttpResponseRedirect(self.request.path_info)
+        elif outfit_form.is_valid():
+            outfit_form.save()
+            return HttpResponseRedirect(self.request.path_info)
+        else:
+            return HttpResponseRedirect(self.request.path_info)
 
 
 class CreateCollectionView(CreateView, LoginRequiredMixin):
@@ -152,50 +166,51 @@ class CreateCollectionView(CreateView, LoginRequiredMixin):
         return kwargs
 
 
-class CollectionMainDetailView(TemplateView, LoginRequiredMixin):
-    template_name = 'clothing/collection_multiform.html'
+# class CollectionMainDetailView(TemplateView, LoginRequiredMixin):
+#     template_name = 'clothing/collection_multiform.html'
+#
+#     def get(self, request, *args, **kwargs):
+#         add_article_form = AddArticleForm(self.request.GET or None)
+#         add_outfit_form = AddOutfitForm(self.request.GET or None)
+#         context = self.get_context_data(**kwargs)
+#         context['add_article_form'] = add_article_form
+#         context['add_outfit_form'] = add_outfit_form
+#         return self.render_to_response(context)
 
-    def get(self, request, *args, **kwargs):
-        add_article_form = AddArticleForm(self.request.GET or None)
-        add_outfit_form = AddOutfitForm(self.request.GET or None)
-        context = self.get_context_data(**kwargs)
-        context['add_article_form'] = add_article_form
-        context['add_outfit_form'] = add_outfit_form
-        return self.render_to_response(context)
+#  return render(self.request.GET, template_name=self.template_name, context)
+
+# class AddArticleFormView(FormView, LoginRequiredMixin):
+#     form_class = AddArticleForm
+#     template_name = 'clothing/collection_detail.html'
+#
+#     # I want this to redirect right back to the detail page of the collection
+#     # def get_success_url(self):
+#     #     return reverse('clothing:collection-detail', kwargs={"pk": self.pk})
+#
+#     def post(self, request, *args, **kwargs):
+#         article_form = self.form_class(request.POST)
+#         outfit_form = AddOutfitForm()
+#         if article_form.is_valid():
+#             article_form.save()
+#             return HttpResponseRedirect(self.request.path_info)
+#         else:
+#             print("it thinks the form isn't valid")
+#             return HttpResponseRedirect(self.request.path_info)
 
 
-class AddArticleFormView(FormView, LoginRequiredMixin):
-    form_class = AddArticleForm
-    template_name = 'clothing/collection_multiform.html'
-
-    # I want this to redirect right back to the detail page of the collection
-    def get_success_url(self):
-        return reverse_lazy('clothing:collection-detail', kwargs={"pk": self.pk})
-
-    def post(self, request, *args, **kwargs):
-        article_form = self.form_class(request.POST)
-        outfit_form = AddOutfitForm()
-        if article_form.is_valid():
-            article_form.save()
-            return self.render_to_response(self.get_context_data(success=True))
-        else:
-            return self.render_to_response(self.get_context_data(article_form=article_form))
-
-
-class AddOutfitFormView(FormView, LoginRequiredMixin):
-    form_class = AddOutfitForm
-    template_name = 'clothing/collection_multiform.html'
-
-    # I want this to redirect right back to the detail page of the collection
-    def get_success_url(self):
-        return reverse_lazy('clothing:collection-detail', kwargs={"pk": self.pk})
-
-    def post(self, request, *args, **kwargs):
-        outfit_form = self.form_class(request.POST)
-        article_form = AddArticleForm()
-        if outfit_form.is_valid():
-            outfit_form.save()
-            return self.render_to_response(self.get_context_data(success=True))
-        else:
-            return self.render_to_response(self.get_context_data(outfit_form=outfit_form))
-
+# class AddOutfitFormView(FormView, LoginRequiredMixin):
+#     form_class = AddOutfitForm
+#     template_name = 'clothing/collection_detail.html'
+#
+#     # I want this to redirect right back to the detail page of the collection
+#     def get_success_url(self):
+#         return reverse('clothing:collection-detail', kwargs={"pk": self.pk})
+#
+#     def post(self, request, *args, **kwargs):
+#         outfit_form = self.form_class(request.POST)
+#         article_form = AddArticleForm()
+#         if outfit_form.is_valid():
+#             outfit_form.save()
+#             return HttpResponseRedirect(self.request.path_info)
+#         else:
+#             return HttpResponseRedirect(self.request.path_info)

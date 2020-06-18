@@ -90,8 +90,14 @@ class AddArticleForm(forms.ModelForm):
         model = Collection
         fields = ['articles']
 
-    # I may have to override save to make the article stick but I'm honestly not sure
-    # I will test without and see what happens
+    # this save should just add on one article to the list of articles
+    def save(self, *args, **kwargs):
+        # creates the new collection instance
+        updated_instance = super(AddArticleForm, self).save(commit=False)
+        print(updated_instance.articles.all())
+        print(self.cleaned_data['articles'])
+        updated_instance.articles.add(self.cleaned_data['articles'].first())
+        updated_instance.save()
 
 
 class AddOutfitForm(forms.ModelForm):
@@ -99,5 +105,10 @@ class AddOutfitForm(forms.ModelForm):
         model = Collection
         fields = ['outfits']
 
-    # I may have to override save to make the article stick but I'm honestly not sure
-    # I will test without and see what happens
+    def save(self, *args, **kwargs):
+        # creates the new collection instance
+        updated_instance = super(AddOutfitForm, self).save(commit=False)
+        print(updated_instance.outfits.all())
+        print(self.cleaned_data['outfits'])
+        updated_instance.outfits.add(self.cleaned_data['outfits'].first())
+        updated_instance.save()
