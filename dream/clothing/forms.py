@@ -94,9 +94,9 @@ class AddArticleForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         # creates the new collection instance
         updated_instance = super(AddArticleForm, self).save(commit=False)
-        print(updated_instance.articles.all())
-        print(self.cleaned_data['articles'])
+        # adds the selected item to the field of the instance
         updated_instance.articles.add(self.cleaned_data['articles'].first())
+        # saves the instance
         updated_instance.save()
 
 
@@ -108,7 +108,5 @@ class AddOutfitForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         # creates the new collection instance
         updated_instance = super(AddOutfitForm, self).save(commit=False)
-        print(updated_instance.outfits.all())
-        print(self.cleaned_data['outfits'])
         updated_instance.outfits.add(self.cleaned_data['outfits'].first())
         updated_instance.save()

@@ -15,9 +15,7 @@ from .views import (
     CollectionListView,
     CollectionDetailView,
     CreateCollectionView,
-    # CollectionMainDetailView,
-    # AddArticleFormView,
-    # AddOutfitFormView,
+    CollectionUpdateView,
 )
 
 
@@ -36,7 +34,5 @@ urlpatterns = [
     path('collections/', CollectionListView.as_view(), name='collection-list'),
     path('collections/<int:pk>/', CollectionDetailView.as_view(), name='collection-detail'),
     path('collections/create-collection/', CreateCollectionView.as_view(), name='create-new-collection'),
-    # path('collections/test-multiform/', CollectionMainDetailView.as_view(), name='test-multiform'),
-    # path('collections/new-collection-article/', AddArticleFormView.as_view(), name='test-new-article'),
-    # path('collections/new-collection-outfit/', AddOutfitFormView.as_view(), name='test-new-outfit'),
+    path('collections/<int:pk>/edit', CollectionUpdateView.as_view(), name='edit-collection'),
 ]

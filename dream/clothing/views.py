@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.urls import reverse
+from django.forms.widgets import CheckboxSelectMultiple
+from django.forms.models import modelform_factory
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -128,6 +128,7 @@ class CollectionListView(ListView, LoginRequiredMixin):
         return Collection.objects.filter(creator=self.request.user)
 
 
+# this page has two forms on it, one adds to Article, one adds to Outfit
 class CollectionDetailView(DetailView, LoginRequiredMixin):
     template_name = 'clothing/collection_detail.html'
     model = Collection
@@ -166,51 +167,10 @@ class CreateCollectionView(CreateView, LoginRequiredMixin):
         return kwargs
 
 
-# class CollectionMainDetailView(TemplateView, LoginRequiredMixin):
-#     template_name = 'clothing/collection_multiform.html'
-#
-#     def get(self, request, *args, **kwargs):
-#         add_article_form = AddArticleForm(self.request.GET or None)
-#         add_outfit_form = AddOutfitForm(self.request.GET or None)
-#         context = self.get_context_data(**kwargs)
-#         context['add_article_form'] = add_article_form
-#         context['add_outfit_form'] = add_outfit_form
-#         return self.render_to_response(context)
-
-#  return render(self.request.GET, template_name=self.template_name, context)
-
-# class AddArticleFormView(FormView, LoginRequiredMixin):
-#     form_class = AddArticleForm
-#     template_name = 'clothing/collection_detail.html'
-#
-#     # I want this to redirect right back to the detail page of the collection
-#     # def get_success_url(self):
-#     #     return reverse('clothing:collection-detail', kwargs={"pk": self.pk})
-#
-#     def post(self, request, *args, **kwargs):
-#         article_form = self.form_class(request.POST)
-#         outfit_form = AddOutfitForm()
-#         if article_form.is_valid():
-#             article_form.save()
-#             return HttpResponseRedirect(self.request.path_info)
-#         else:
-#             print("it thinks the form isn't valid")
-#             return HttpResponseRedirect(self.request.path_info)
-
-
-# class AddOutfitFormView(FormView, LoginRequiredMixin):
-#     form_class = AddOutfitForm
-#     template_name = 'clothing/collection_detail.html'
-#
-#     # I want this to redirect right back to the detail page of the collection
-#     def get_success_url(self):
-#         return reverse('clothing:collection-detail', kwargs={"pk": self.pk})
-#
-#     def post(self, request, *args, **kwargs):
-#         outfit_form = self.form_class(request.POST)
-#         article_form = AddArticleForm()
-#         if outfit_form.is_valid():
-#             outfit_form.save()
-#             return HttpResponseRedirect(self.request.path_info)
-#         else:
-#             return HttpResponseRedirect(self.request.path_info)
+class CollectionUpdateView(UpdateView, LoginRequiredMixin):
+    model = Collection
+    form_class = modelform_factory(Collection,
+                                   widgets={'articles': CheckboxSelectMultiple,
+                                            'outfits': CheckboxSelectMultiple},
+                                   fields=['articles', 'outfits'])
+    template_name = 'clothing/collection_update_form.html'

@@ -3,6 +3,7 @@
 {% block content %}
 <h1>{{ object.name }}</h1>
 <p>Made by {{ object.creator }}</p>
+<p><a href="edit">Edit this Collection!</a></p>
 
 <p>Articles:</p>
 <ul>
@@ -11,7 +12,7 @@
 {% endfor %}
 </ul>
 
-<b>Add an Article</b>
+<b>Quick Article Add:</b>
 <form action="" method="post">{% csrf_token %}
     {{ add_article_form }}
     <input type="submit" value="Send Article">
@@ -24,7 +25,7 @@
 {% endfor %}
 </ul>
 
-<b>Add Outfit Form</b>
+<b>Quick Outfit Add</b>
 <form action="" method="post">{% csrf_token %}
     {{ add_outfit_form }}
 <input type="submit" value="Send Outfit">
