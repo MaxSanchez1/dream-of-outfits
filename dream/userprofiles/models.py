@@ -16,10 +16,10 @@ class DreamUser(models.Model):
 
 
     # this is just for testing at the moment
-    # @classmethod
-    # def create(cls, user):
-    #     dreamuser = cls(user=user)
-    #     return dreamuser
+    @classmethod
+    def create(cls, user):
+        dreamuser = cls(user=user)
+        return dreamuser
 
 # for testing in shell
 # from django.contrib.auth.models import User

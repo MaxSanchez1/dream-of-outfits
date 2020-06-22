@@ -5,9 +5,15 @@
 <h1>{{ username }}'s profile:</h1>
 
 <p>Profile Picture: to_be_added.jpeg</p>
+{% if is_following %}
+    <p><a href="follow/">Unfollow</a></p>
+{% else %}
+    <p><a href="follow/">Follow!</a></p>
+{% endif %}
 <p>Name: {{ name }} </p>
 <p></p><a href="following/">Following</a>: {{ following }}</p>
 <p></p><a href="followed-by/">Followed By</a>: {{ followedby }}</p>
 
 {% endblock %}
+
 

@@ -8,7 +8,7 @@
 <p>You have not favorited this yet: <a href="favorite/">Favorite</a></p>
 {% endif %}
 <ul>
-    <li>Owner: {{ object.creator }}</li>
+    <li>Owner: <a href="{{ creator_acc.get_absolute_url }}">{{ object.creator }}</a></li>
     <li>Clothing Type: {{object.clothing_type }}</li>
     <li>Color: {{ object.color }}</li>
     <li>Cut: {{ object.cut }}</li>

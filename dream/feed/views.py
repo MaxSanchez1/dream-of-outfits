@@ -19,8 +19,7 @@ class FeedView(ListView, LoginRequiredMixin):
     # outfits of the people the user follows
     def get_queryset(self):
         # getting the list of people the user follows
-        user_ = self.request.user
-        this_user = get_object_or_404(DreamUser, pk=user_.id)
+        this_user = get_object_or_404(DreamUser, user=self.request.user)
         people_this_user_follows = this_user.follows.all()
         # now we have to get a list of all of their outfits
         outfit_pks = []

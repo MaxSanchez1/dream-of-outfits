@@ -17,6 +17,7 @@ from django.views.generic import (
 from .models import Outfit
 from .models import Article
 from .models import Collection
+from userprofiles.models import DreamUser
 from .forms import OutfitModelForm
 from .forms import ArticleModelForm
 from .forms import CollectionModelForm
@@ -35,8 +36,11 @@ class OutfitDetailView(DetailView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         obj = get_object_or_404(Outfit, pk=self.kwargs.get('pk'))
+        # print(obj.creator)
+        dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
         context = super().get_context_data(**kwargs)
         context['is_favorited'] = self.request.user in obj.favorited.all()
+        context['creator_acc'] = dream_user_of_creator
         return context
 
 
@@ -71,8 +75,10 @@ class ArticleDetailView(DetailView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         obj = get_object_or_404(Article, pk=self.kwargs.get('pk'))
+        dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
         context = super().get_context_data(**kwargs)
         context['is_favorited'] = self.request.user in obj.favorited.all()
+        context['creator_acc'] = dream_user_of_creator
         return context
 
 
