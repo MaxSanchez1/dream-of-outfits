@@ -2,11 +2,14 @@
 
 {% block content %}
 
-<p> This is just for debugging </p>
-
+<p>Search For Profiles. If nothing comes up, there's no users by that name.</p>
+<form method='GET' action=''>
+    <input type="text" name="q" placeholder="Search users by username"/>
+    <input type="submit" value="Search!"/>
+</form>
 {% for instance in object_list %}
 
-<p> Unique Profile ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.user.first_name }} {{ instance.user.last_name }}</a></p>
+<p> Unique Profile ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.user.username }}</a> ({{ instance.user.first_name }} {{ instance.user.last_name }})</p>
 
 {% endfor %}
 

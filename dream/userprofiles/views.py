@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.views.generic.base import View
 from django.views.generic import (
@@ -48,9 +49,18 @@ class ProfileView(View, LoginRequiredMixin):
 class AllProfilesView(ListView, LoginRequiredMixin):
     template_name = 'userprofiles/all_profiles.html'
 
+    # this is a searchable queryset
+    # something to add could be only showing the top (5/10) most followed users by default
+    # for now it shows all of them
+    # when you search for users, it comes up with ones that match with your search
     def get_queryset(self):
-        return DreamUser.objects.all()
-
+        query = self.request.GET["q"]
+        return_queryset = DreamUser.objects.all()  # eventually change this since there will be too many
+        # "if query" will be false if there is no query yet
+        if query:
+            return_queryset = return_queryset.filter(user__username__icontains=query)
+        # else is going to do nothing for the moment which will keep the filter at ...all()
+        return return_queryset
 
 class FollowAProfileToggle(RedirectView, LoginRequiredMixin):
     def get_redirect_url(self, pk=None, *args, **kwargs):
@@ -128,4 +138,6 @@ class GeneralFollowedByListView(ListView, LoginRequiredMixin):
     def get_queryset(self):
         dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
         return dream_user.user_followed_by.all()
+
+
 
