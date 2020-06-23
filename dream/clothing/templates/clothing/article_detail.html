@@ -7,14 +7,12 @@
 {% else %}
 <p>You have not favorited this yet: <a href="favorite/">Favorite</a></p>
 {% endif %}
-<ul>
-    <li>Owner: <a href="{{ creator_acc.get_absolute_url }}">{{ object.creator }}</a></li>
-    <li>Clothing Type: {{object.clothing_type }}</li>
-    <li>Color: {{ object.color }}</li>
-    <li>Cut: {{ object.cut }}</li>
-    <li>Pattern: {{ object.pattern }}</li>
-    <li>Material: {{ object.material }}</li>
-</ul>
+<p>Owner: <a href="{{ creator_acc.get_absolute_url }}">{{ object.creator }}</a></p>
+<p>Clothing Type: {{object.clothing_type }}</p>
+<p>Color: {{ object.color }}</p>
+<p>Cut: {{ object.cut }}</p>
+<p>Pattern: {{ object.pattern }}</p>
+<p>Material: {{ object.material }}</p>
 
 {% endblock %}
 

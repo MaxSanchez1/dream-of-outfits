@@ -3,11 +3,11 @@
 {% block content %}
 
 <h1>Your Clothes</h1>
-<a href="create-article/">Add new clothes!</a>
+<p><a href="create-article/">Add new clothes!</a></p>
 
 {% for instance in object_list %}
 
-<p> Unique Article ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a>
+<p> Unique Article ID: {{ instance.id }} --- <a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a>
 
 {% endfor %}
 

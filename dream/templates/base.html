@@ -1,27 +1,110 @@
-<p1>Dream Version 0.1.0</p1>
+<style>
+  h1 {
+    padding: 12px 14px;
+  }
+
+  input[type=submit]{
+    margin: 5px 25px ;
+  }
+
+  input[type=text]{
+    margin: 5px 25px ;
+  }
+
+  p {
+    padding: 5px 25px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  li.dropdown {
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a:hover {background-color: #f1f1f1;}
+
+   .dropdown:hover .dropdown-content {
+      display: block;
+   }
+
+  li {
+    float: left;
+    border-right: 1px solid #bbb;
+  }
+
+  li:last-child {
+    border-right: none;
+  }
+
+  li a {
+    display: block;
+    padding: 12px 14px;
+    text-align: center;
+    text-decoration: none;
+    text-color: black
+  }
+
+  li a1 {
+    display: block;
+    padding: 12px 14px;
+  }
+
+  a1 {
+    display: block;
+    padding: 12px 14px;
+  }
+
+
+  li a:hover {
+    background-color: #dcdcdc;
+  }
+</style>
+
+<p>Dream Version 0.2.0</p>
 
 
 <ul>
   <li><a href="/feed">Your Feed</a></li>
   <li><a href="/userprofiles/my-profile">Your Profile</a></li>
-  <li><a href="/clothing/closet">Your Clothes</a></li>
-  <li><a href="/clothing">Your Outfits</a></li>
+
+  <li class="dropdown">
+    <a href="/clothing/closet" class="dropbtn">Closet</a>
+    <div class="dropdown-content">
+      <a href="/clothing/closet">Your Clothes</a>
+      <a href="/clothing">Your Outfits</a>
+      <a href="/clothing/favorite-articles">Favorite Clothes</a>
+      <a href="/clothing/favorite-outfits">Favorite Outfits</a>
+    </div>
+  </li>
+
   <li><a href="/clothing/collections">Your Collections</a></li>
-  <li><a href="/clothing/favorite-articles">Favorite Clothes</a></li>
-  <li><a href="/clothing/favorite-outfits">Favorite Outfits</a></li>
+  <li><a href="/userprofiles">Search Users</a></li>
   <li><a href="/about">About</a></li>
 </ul>
 
-<ul>
+
   {% if user.is_authenticated %}
-    <li>User: {{ user.get_username }}</li>
-    <li><a href="{% url 'logout'%}">Logout</a></li>
+    <p>User: {{ user.get_username }}</p>
+    <p><a href="{% url 'logout'%}">Logout</a></p>
   {% elif 'logout' in request.path %}
     <!-- I want nothing to happen here -->
   {% else %}
-    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+    <p></p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
   {% endif %}
-</ul>
 
 {% block content %}
 

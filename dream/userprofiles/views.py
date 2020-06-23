@@ -54,18 +54,21 @@ class AllProfilesView(ListView, LoginRequiredMixin):
     # for now it shows all of them
     # when you search for users, it comes up with ones that match with your search
     def get_queryset(self):
-        query = self.request.GET["q"]
         return_queryset = DreamUser.objects.all()  # eventually change this since there will be too many
+        try:
+            query = self.request.GET["q"]
+        except KeyError:
+            return return_queryset
         # "if query" will be false if there is no query yet
         if query:
             return_queryset = return_queryset.filter(user__username__icontains=query)
         # else is going to do nothing for the moment which will keep the filter at ...all()
         return return_queryset
 
+
 class FollowAProfileToggle(RedirectView, LoginRequiredMixin):
     def get_redirect_url(self, pk=None, *args, **kwargs):
         dream_user_of_current_page = get_object_or_404(DreamUser, pk=pk)
-        # this is hardcoded for now, find out how to link back to referrer maybe
         url_ = dream_user_of_current_page.get_absolute_url()
         your_dream_account = get_object_or_404(DreamUser, user=self.request.user)
         # make this user like this article
