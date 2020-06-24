@@ -11,20 +11,18 @@
     margin: 5px 25px ;
   }
 
+  h1 {
+   font-family:calibri;
+   font-size: 25px;
+   font-weight: 500;
+  }
+
   p {
-    padding: 5px 25px;
+    padding: 0px 25px;
+    font-family: calibri light;
+    font-size: 20px;
   }
 
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  li.dropdown {
-    display: inline-block;
-  }
 
   .dropdown-content {
     display: none;
@@ -55,7 +53,7 @@
     padding: 12px 14px;
     text-align: center;
     text-decoration: none;
-    text-color: black
+    text-color: black;
   }
 
   li a1 {
@@ -63,21 +61,52 @@
     padding: 12px 14px;
   }
 
-  a1 {
-    display: block;
-    padding: 12px 14px;
-  }
-
-
   li a:hover {
     background-color: #dcdcdc;
   }
+
+  li a:visited {
+    color: black;
+  }
+
+  li a:unvisited {
+    color: black;
+  }
+
+  p a:visited {
+    color: black;
+  }
+
+  p a:unvisited {
+    color: black;
+  }
+
+  p.toptitle {
+    font-family:calibri light;
+    font-size: 25px;
+    text-align: center;
+    padding: 1px 1px;
+    left: 50%
+    transform: translate(-50%, -50%);
+  }
+
+  ul.navbar {
+    display: inline-block;
+    list-style-type: none;
+    text-align: center;
+    font-family:calibri light;
+    font-size: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 </style>
+<body>
+  <p class="toptitle">Dream Version 0.2.0</p>
+</body>
 
-<p>Dream Version 0.2.0</p>
 
-
-<ul>
+<ul class="navbar">
   <li><a href="/feed">Your Feed</a></li>
   <li><a href="/userprofiles/my-profile">Your Profile</a></li>
 
@@ -96,14 +125,12 @@
   <li><a href="/about">About</a></li>
 </ul>
 
-
   {% if user.is_authenticated %}
-    <p>User: {{ user.get_username }}</p>
-    <p><a href="{% url 'logout'%}">Logout</a></p>
+    <p>Logged in as {{ user.get_username }}, <a href="{% url 'logout'%}">Logout</a></p>
   {% elif 'logout' in request.path %}
     <!-- I want nothing to happen here -->
   {% else %}
-    <p></p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+    <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
   {% endif %}
 
 {% block content %}
