@@ -13,6 +13,9 @@ from django.views.generic import (
 )
 
 from .models import DreamUser
+from clothing.models import Outfit
+from clothing.models import Article
+from clothing.models import Collection
 
 # Create your views here.
 # TODO
@@ -141,6 +144,52 @@ class GeneralFollowedByListView(ListView, LoginRequiredMixin):
     def get_queryset(self):
         dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
         return dream_user.user_followed_by.all()
+
+
+# allow users to see the outfits of others. should be accessible from profile views of other people
+class OtherOutfitListView(ListView, LoginRequiredMixin):
+    template_name = "userprofiles/someone_elses_outfits.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['u_name'] = dream_user.user.username
+        return context
+
+    def get_queryset(self):
+        dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
+        return Outfit.objects.filter(creator=dream_user.user)
+
+
+# allow users to see the articles of others. should be accessible from profile views of other people
+class OtherArticleListView(ListView, LoginRequiredMixin):
+    template_name = "userprofiles/someone_elses_articles.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['u_name'] = dream_user.user.username
+        return context
+
+    def get_queryset(self):
+        dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
+        return Article.objects.filter(creator=dream_user.user)
+
+
+# allow users to see the articles of others. should be accessible from profile views of other people
+class OtherCollectionListView(ListView, LoginRequiredMixin):
+    template_name = "userprofiles/someone_elses_collections.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['u_name'] = dream_user.user.username
+        return context
+
+    def get_queryset(self):
+        dream_user = get_object_or_404(DreamUser, pk=self.kwargs.get('pk'))
+        return Collection.objects.filter(creator=dream_user.user)
+
 
 
 

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ u_name }}'s Articles</h1>
+
+{% for instance in object_list %}
+
+<p> Unique Article ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a>
+
+{% endfor %}
+
+{% endblock %}

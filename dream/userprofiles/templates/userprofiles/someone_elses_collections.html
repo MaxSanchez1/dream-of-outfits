@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ u_name }}'s Collections</h1>
+
+{% for instance in object_list %}
+
+<p> Unique Collection ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.name }}</a>
+
+{% endfor %}
+
+{% endblock %}

@@ -145,6 +145,8 @@ class CollectionDetailView(DetailView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context['add_article_form'] = add_article_form
         context['add_outfit_form'] = add_outfit_form
+        instance_ = get_object_or_404(Collection, pk=self.kwargs.get('pk'))
+        context['can_edit'] = str(self.request.user) == str(instance_.creator)
         return context
 
     def post(self, request, *args, **kwargs):

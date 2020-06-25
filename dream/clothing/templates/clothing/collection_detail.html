@@ -3,33 +3,36 @@
 {% block content %}
 <h1>{{ object.name }}</h1>
 <p>Made by {{ object.creator }}</p>
+
+{% if can_edit %}
 <p><a href="edit">Edit this Collection!</a></p>
+{% endif %}
 
-<p>Articles:</p>
-<ul>
+<b>Articles:</b>
 {% for instance in object.articles.all %}
-    <li><a href="{{ instance.get_absolute_url }}">{{ instance.color }} {{ instance.clothing_type }}</a></li>
+    <p><a href="{{ instance.get_absolute_url }}">{{ instance.color }} {{ instance.clothing_type }}</a></p>
 {% endfor %}
-</ul>
 
+{% if can_edit %}
 <b>Quick Article Add:</b>
 <form action="" method="post">{% csrf_token %}
     {{ add_article_form }}
     <input type="submit" value="Send Article">
 </form>
+{% endif %}
 
-<p>Outfits:</p>
-<ul>
+<b>Outfits:</b>
+
 {% for instance in object.outfits.all %}
-    <li><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></li>
+    <p><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></p>
 {% endfor %}
-</ul>
 
+{% if can_edit %}
 <b>Quick Outfit Add</b>
 <form action="" method="post">{% csrf_token %}
     {{ add_outfit_form }}
 <input type="submit" value="Send Outfit">
 </form>
-
+{% endif %}
 
 {% endblock %}
