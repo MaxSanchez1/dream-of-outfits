@@ -8,8 +8,11 @@ from userprofiles.models import DreamUser
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
-    # return render(request, 'home.html', {})
-    return render(request, "home.html", {})
+    if request.user.is_authenticated:
+        return render(request, "home.html", {})
+    else:
+        return render(request, "unauth_home.html", {})
+
 
 
 def about_view(request, *args, **kwargs):

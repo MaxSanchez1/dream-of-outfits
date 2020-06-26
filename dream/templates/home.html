@@ -1,7 +1,6 @@
-<h1>Welcome to Dream, {{ request.user }}! What would you like to do?</h1>
-<p>outfit creation page ("Create Outfit")</p>
-<p>page showing all your outfits ("View Closet")</p>
-<p>profile view page ("View Profile")</p>
-<p>page where you can search for outfits ("Find an Outfit") </p>
+{% extends "base.html" %}
 
-<a href="/clothing"> Take my to my clothes! (Remove this once the homepage is designed)</a>
+{% block content %}
+        <p>Welcome to Dream!</p>
+{% endblock %}
+

@@ -2,13 +2,15 @@
 
 {% block content %}
 
-<p>New User Registration:</p>
+<p><b>New User Registration:</b></p>
 
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Sign Up</button>
+        <button style="background-color:black; color:white" class="btn btn-outline-info" type="submit">Sign Up</button>
     </form>
+
+    <p>Warning: Password must be at least 8 characters and can't be entirely numeric.</p>
 
     If you already have an account <a href="/login" target="blank"><strong>login</strong></a> instead.
 
