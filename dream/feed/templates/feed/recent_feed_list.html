@@ -6,7 +6,7 @@
 
 {% for instance in object_list %}
 
-<p> Unique Outfit ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.title }} - Created On {{ instance.creation_date }}</a>
+<p> Unique Outfit ID: {{ instance.id }} - <a href='{{ instance.get_absolute_url }}'>{{ instance.title }} - Created On {{ instance.creation_date }} by {{ instance.creator }}</a>
 
 {% endfor %}
 
