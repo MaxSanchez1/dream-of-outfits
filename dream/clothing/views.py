@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.forms.widgets import CheckboxSelectMultiple
 from django.forms.models import modelform_factory
+from django import forms
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -12,6 +13,7 @@ from django.views.generic import (
     RedirectView,
     TemplateView,
     FormView,
+    View,
 )
 
 from .models import Outfit
@@ -21,8 +23,9 @@ from userprofiles.models import DreamUser
 from .forms import OutfitModelForm
 from .forms import ArticleModelForm
 from .forms import CollectionModelForm
-from .forms import AddArticleForm
-from .forms import AddOutfitForm
+from .forms import CollectionUpdateForm
+# from .forms import AddArticleForm
+# from .forms import AddOutfitForm
 
 
 class OutfitListView(ListView, LoginRequiredMixin):
@@ -140,27 +143,27 @@ class CollectionDetailView(DetailView, LoginRequiredMixin):
     model = Collection
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        add_article_form = AddArticleForm(self.request.GET or None)
-        add_outfit_form = AddOutfitForm(self.request.GET or None)
+        # add_article_form = AddArticleForm(self.request.GET or None)
+        # add_outfit_form = AddOutfitForm(self.request.GET or None)
         context = super().get_context_data(**kwargs)
-        context['add_article_form'] = add_article_form
-        context['add_outfit_form'] = add_outfit_form
+        # context['add_article_form'] = add_article_form
+        # context['add_outfit_form'] = add_outfit_form
         instance_ = get_object_or_404(Collection, pk=self.kwargs.get('pk'))
         context['can_edit'] = str(self.request.user) == str(instance_.creator)
         return context
 
-    def post(self, request, *args, **kwargs):
-        instance_ = get_object_or_404(Collection, pk=self.kwargs.get('pk'))
-        article_form = AddArticleForm(request.POST or None, instance=instance_)
-        outfit_form = AddOutfitForm(request.POST or None, instance=instance_)
-        if article_form.is_valid():
-            article_form.save()
-            return HttpResponseRedirect(self.request.path_info)
-        elif outfit_form.is_valid():
-            outfit_form.save()
-            return HttpResponseRedirect(self.request.path_info)
-        else:
-            return HttpResponseRedirect(self.request.path_info)
+    # def post(self, request, *args, **kwargs):
+    #     instance_ = get_object_or_404(Collection, pk=self.kwargs.get('pk'))
+    #     article_form = AddArticleForm(request.POST or None, instance=instance_)
+    #     outfit_form = AddOutfitForm(request.POST or None, instance=instance_)
+    #     if article_form.is_valid():
+    #         article_form.save()
+    #         return HttpResponseRedirect(self.request.path_info)
+    #     elif outfit_form.is_valid():
+    #         outfit_form.save()
+    #         return HttpResponseRedirect(self.request.path_info)
+    #     else:
+    #         return HttpResponseRedirect(self.request.path_info)
 
 
 class CreateCollectionView(CreateView, LoginRequiredMixin):
@@ -177,8 +180,12 @@ class CreateCollectionView(CreateView, LoginRequiredMixin):
 
 class CollectionUpdateView(UpdateView, LoginRequiredMixin):
     model = Collection
-    form_class = modelform_factory(Collection,
-                                   widgets={'articles': CheckboxSelectMultiple,
-                                            'outfits': CheckboxSelectMultiple},
-                                   fields=['articles', 'outfits'])
+    form_class = CollectionUpdateForm
     template_name = 'clothing/collection_update_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['articles'] = Article.objects.filter(creator=self.request.user)
+        kwargs['outfits'] = Outfit.objects.filter(creator=self.request.user)
+        return kwargs
+

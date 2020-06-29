@@ -4,6 +4,9 @@ from .models import Outfit
 from .models import Article
 from .models import Collection
 
+from django.forms.widgets import CheckboxSelectMultiple
+from django.forms import ModelMultipleChoiceField
+
 
 class OutfitModelForm(forms.ModelForm):
     title = forms.CharField(label='', widget=forms.TextInput(attrs={"placeholder": "Outfit Title"}))
@@ -85,28 +88,18 @@ class CollectionModelForm(forms.ModelForm):
         super(CollectionModelForm, self).__init__(*args, **kwargs)
 
 
-class AddArticleForm(forms.ModelForm):
+class CollectionUpdateForm(forms.ModelForm):
     class Meta:
         model = Collection
-        fields = ['articles']
+        fields = ['articles', 'outfits']
+        widgets = {
+            'articles': CheckboxSelectMultiple,
+            'outfits': CheckboxSelectMultiple,
+        }
 
-    # this save should just add on one article to the list of articles
-    def save(self, *args, **kwargs):
-        # creates the new collection instance
-        updated_instance = super(AddArticleForm, self).save(commit=False)
-        # adds the selected item to the field of the instance
-        updated_instance.articles.add(self.cleaned_data['articles'].first())
-        # saves the instance
-        updated_instance.save()
-
-
-class AddOutfitForm(forms.ModelForm):
-    class Meta:
-        model = Collection
-        fields = ['outfits']
-
-    def save(self, *args, **kwargs):
-        # creates the new collection instance
-        updated_instance = super(AddOutfitForm, self).save(commit=False)
-        updated_instance.outfits.add(self.cleaned_data['outfits'].first())
-        updated_instance.save()
+    def __init__(self, *args, **kwargs):
+        articles = kwargs.pop('articles')
+        outfits = kwargs.pop('outfits')
+        super().__init__(*args, **kwargs)
+        self.fields['articles'].queryset = articles
+        self.fields['outfits'].queryset = outfits
