@@ -93,6 +93,7 @@ class PersonalProfileView(View, LoginRequiredMixin):
             'username': obj.user.username,
             'followedby': len(obj.user_followed_by.all()),
             'following': len(obj.follows.all()),
+            'image_source': obj.image.url
         }
         return render(request, self.template_name, context)
 

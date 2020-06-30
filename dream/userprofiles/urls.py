@@ -29,5 +29,4 @@ urlpatterns = [
     path('profile/<int:pk>/follow/', FollowAProfileToggle.as_view(), name='toggle-follow'),
     path('profile/<int:pk>/following/', GeneralFollowingListView.as_view(), name='other-is-following'),
     path('profile/<int:pk>/followed-by/', GeneralFollowedByListView.as_view(), name='other-is-followed-by'),
-
 ]
