@@ -28,6 +28,16 @@ from .forms import CollectionUpdateForm
 # from .forms import AddOutfitForm
 
 
+# helper to get default article image when there is none uploaded
+def get_default_image(user_obj):
+    try:
+        return_url = user_obj.image.url
+        return return_url
+    # catches when there's no image assigned
+    except ValueError:
+        return "/media/default-any/base_default.JPG"
+
+
 class OutfitListView(ListView, LoginRequiredMixin):
     # this is going to be only the outfits that the user has made
     def get_queryset(self):
@@ -80,6 +90,7 @@ class ArticleDetailView(DetailView, LoginRequiredMixin):
         obj = get_object_or_404(Article, pk=self.kwargs.get('pk'))
         dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
         context = super().get_context_data(**kwargs)
+        context['image_source'] = get_default_image(obj)
         context['is_favorited'] = self.request.user in obj.favorited.all()
         context['creator_acc'] = dream_user_of_creator
         return context

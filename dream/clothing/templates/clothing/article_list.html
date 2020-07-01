@@ -7,7 +7,16 @@
 
 {% for instance in object_list %}
 
-<p> Unique Article ID: {{ instance.id }} --- <a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a>
+     <div class="list-img-format">
+    {% if instance.image %}
+
+            <p><img src="{{ instance.image.url }}" alt="No Image." width = 80><a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a></p>
+
+    {% else %}
+
+        <p><a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a></p>
+    {% endif %}
+     </div>
 
 {% endfor %}
 

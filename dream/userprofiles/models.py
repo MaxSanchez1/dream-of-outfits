@@ -15,7 +15,6 @@ class DreamUser(models.Model):
     def get_absolute_url(self):
         return reverse('userprofiles:profile', kwargs={"pk": self.pk})
 
-
     # this is just for testing at the moment
     @classmethod
     def create(cls, user):

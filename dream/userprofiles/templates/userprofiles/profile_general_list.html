@@ -4,7 +4,7 @@
 
 <h1>{{ username }}'s profile:</h1>
 
-<p>Profile Picture: to_be_added.jpeg</p>
+<img class="profile-padding" src="{{ image_source }}" width="240">
 {% if is_following %}
     <p><a href="follow/">Unfollow</a></p>
 {% else %}

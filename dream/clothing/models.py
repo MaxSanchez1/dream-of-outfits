@@ -20,6 +20,7 @@ class Article(models.Model):
     cut = models.CharField(max_length=60, blank=True)
     pattern = models.CharField(max_length=60, blank=True)
     material = models.CharField(max_length=60, blank=True)
+    image = models.ImageField(upload_to='article-image', blank=True)
 
     # experimental liking field
     favorited = models.ManyToManyField(User, blank=True, related_name="article_favorited_by")

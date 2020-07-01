@@ -17,16 +17,18 @@ from clothing.models import Outfit
 from clothing.models import Article
 from clothing.models import Collection
 
-# Create your views here.
-# TODO
-# user profile general view
-# should be eventually customizable enough to have "add outfit" links and stuff to your own but not when you're
-# looking at others'
-# follower view
-# following view
+
+# helper method to serve default profile picture if one isn't yet assigned
+def get_default_image(user_obj):
+    try:
+        return_url = user_obj.image.url
+        return return_url
+    # catches when there's no image assigned
+    except ValueError:
+        return "/media/default-profile/default_pic.JPG"
 
 
-# Profile information: Photo (text placeholder for now), basic info (can get from User), following #, followed #
+# Profile information: Photo , basic info (can get from User), following #, followed #
 # future things to add: featured outfits
 # this is the arbitrary profile view, not the one that you see exactly for your own
 class ProfileView(View, LoginRequiredMixin):
@@ -42,6 +44,7 @@ class ProfileView(View, LoginRequiredMixin):
                 'username': obj.user.username,
                 'followedby': len(obj.user_followed_by.all()),
                 'following': len(obj.follows.all()),
+                'image_source': get_default_image(obj),
             }
         your_dream_account = get_object_or_404(DreamUser, user=self.request.user)
         dream_user_of_current_page = get_object_or_404(DreamUser, pk=pk)
@@ -93,7 +96,7 @@ class PersonalProfileView(View, LoginRequiredMixin):
             'username': obj.user.username,
             'followedby': len(obj.user_followed_by.all()),
             'following': len(obj.follows.all()),
-            'image_source': obj.image.url
+            'image_source': get_default_image(obj),
         }
         return render(request, self.template_name, context)
 
