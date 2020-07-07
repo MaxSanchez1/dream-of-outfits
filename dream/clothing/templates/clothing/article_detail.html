@@ -15,5 +15,9 @@
 <p>Pattern: {{ object.pattern }}</p>
 <p>Material: {{ object.material }}</p>
 
+{% if is_creator %}
+<p><a href="delete/">Delete this article</a></p>
+{% endif %}
+
 {% endblock %}
 

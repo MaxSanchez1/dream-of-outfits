@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.forms.widgets import CheckboxSelectMultiple
 from django.forms.models import modelform_factory
@@ -52,9 +53,23 @@ class OutfitDetailView(DetailView, LoginRequiredMixin):
         # print(obj.creator)
         dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
         context = super().get_context_data(**kwargs)
+        context['is_creator'] = str(self.request.user) == str(dream_user_of_creator.user)
         context['image_source'] = get_default_image(obj)
         context['is_favorited'] = self.request.user in obj.favorited.all()
         context['creator_acc'] = dream_user_of_creator
+        return context
+
+
+class OutfitDeleteView(DeleteView, LoginRequiredMixin):
+    model = Outfit
+    template_name = 'clothing/outfit_delete.html'
+    success_url = reverse_lazy('clothing:outfit-list')
+
+    def get_context_data(self, **kwargs):
+        obj = get_object_or_404(Outfit, pk=self.kwargs.get('pk'))
+        dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
+        context = super().get_context_data(**kwargs)
+        context['is_creator'] = str(self.request.user) == str(dream_user_of_creator.user)
         return context
 
 
@@ -93,7 +108,21 @@ class ArticleDetailView(DetailView, LoginRequiredMixin):
         context = super().get_context_data(**kwargs)
         context['image_source'] = get_default_image(obj)
         context['is_favorited'] = self.request.user in obj.favorited.all()
+        context['is_creator'] = str(self.request.user) == str(dream_user_of_creator.user)
         context['creator_acc'] = dream_user_of_creator
+        return context
+
+
+class ArticleDeleteView(DeleteView, LoginRequiredMixin):
+    model = Article
+    template_name = 'clothing/article_delete.html'
+    success_url = reverse_lazy('clothing:clothing-list')
+
+    def get_context_data(self, **kwargs):
+        obj = get_object_or_404(Article, pk=self.kwargs.get('pk'))
+        dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
+        context = super().get_context_data(**kwargs)
+        context['is_creator'] = str(self.request.user) == str(dream_user_of_creator.user)
         return context
 
 
@@ -188,6 +217,19 @@ class CreateCollectionView(CreateView, LoginRequiredMixin):
         kwargs = super(CreateCollectionView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+
+class CollectionDeleteView(DeleteView, LoginRequiredMixin):
+    model = Collection
+    template_name = 'clothing/collection_delete.html'
+    success_url = reverse_lazy('clothing:collection-list')
+
+    def get_context_data(self, **kwargs):
+        obj = get_object_or_404(Collection, pk=self.kwargs.get('pk'))
+        dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
+        context = super().get_context_data(**kwargs)
+        context['is_creator'] = str(self.request.user) == str(dream_user_of_creator.user)
+        return context
 
 
 class CollectionUpdateView(UpdateView, LoginRequiredMixin):

@@ -16,5 +16,8 @@
 <p>Socks: <a href="{{ object.socks.get_absolute_url }}">{{ object.socks }}</a></p>
 <p>Hat: <a href="{{ object.hat.get_absolute_url }}">{{ object.hat }}</a></p>
 
+{% if is_creator %}
+<p><a href="delete/">Delete this outfit</a></p>
+{% endif %}
 
 {% endblock %}
