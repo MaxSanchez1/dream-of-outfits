@@ -37,11 +37,12 @@ class Outfit(models.Model):
     title = models.CharField(max_length=120)
     top = models.ForeignKey('Article', on_delete=models.SET_NULL, related_name="outfit_top", null=True)
     bottom = models.ForeignKey('Article', on_delete=models.SET_NULL, related_name="outfit_bottom", null=True)
-    shoes = models.ForeignKey('Article', on_delete=models.SET_NULL , related_name="outfit_shoes", null=True)
+    shoes = models.ForeignKey('Article', on_delete=models.SET_NULL, related_name="outfit_shoes", null=True)
 
     # # optional (blank=True)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='outfit-image', blank=True)
     # jacket = models.CharField(max_length=120, blank=True)
     # socks = models.CharField(max_length=120, blank=True)
     # hat = models.CharField(max_length=120, blank=True)

@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>{{ object.title }}</h1>
+<img class="article-detail" src="{{ image_source }}" width="120">
 <p>Made by <a href="{{ creator_acc.get_absolute_url }}">{{ object.creator }}</a>
 {% if is_favorited %}
     <p>You have already favorited this: <a href="favorite/">Unfavorite</a></p>

@@ -52,6 +52,7 @@ class OutfitDetailView(DetailView, LoginRequiredMixin):
         # print(obj.creator)
         dream_user_of_creator = get_object_or_404(DreamUser, user=obj.creator)
         context = super().get_context_data(**kwargs)
+        context['image_source'] = get_default_image(obj)
         context['is_favorited'] = self.request.user in obj.favorited.all()
         context['creator_acc'] = dream_user_of_creator
         return context
