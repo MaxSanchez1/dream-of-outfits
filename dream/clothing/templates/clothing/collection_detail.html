@@ -10,14 +10,29 @@
 
 <b>Articles:</b>
 {% for instance in object.articles.all %}
-    <p><a href="{{ instance.get_absolute_url }}">{{ instance.color }} {{ instance.clothing_type }}</a></p>
+    <div class="list-img-format">
+    {% if instance.image %}
+
+            <p><img src="{{ instance.image.url }}" alt="No Image." width = 80><a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a></p>
+
+    {% else %}
+
+        <p><a href='{{ instance.get_absolute_url }}'>{{ instance.color }} {{ instance.clothing_type }}</a></p>
+    {% endif %}
+     </div>
 {% endfor %}
 
 
 <b>Outfits:</b>
-
 {% for instance in object.outfits.all %}
-    <p><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></p>
+    <div class="list-img-format">
+    {% if instance.image %}
+        <p><img src="{{ instance.image.url }}" alt="No Image." width = 80><a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a></p>
+    {% else %}
+
+        <p><a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a></p>
+    {% endif %}
+     </div>
 {% endfor %}
 
 {% if can_edit %}
