@@ -101,6 +101,16 @@ class PersonalProfileView(View, LoginRequiredMixin):
         return render(request, self.template_name, context)
 
 
+class EditPersonalProfile(UpdateView, LoginRequiredMixin):
+    model = DreamUser
+    fields = ['image']
+    template_name = "userprofiles/update_personal_profile.html"
+
+    def get_object(self):
+        obj = get_object_or_404(DreamUser, user=self.request.user)
+        return obj
+
+
 # uses self.request.user because this is the PERSONAL following page
 class PersonalFollowingListView(ListView, LoginRequiredMixin):
     template_name = "userprofiles/i_am_following_list.html"

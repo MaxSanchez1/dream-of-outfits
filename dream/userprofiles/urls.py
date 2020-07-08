@@ -13,6 +13,7 @@ from .views import (
     OtherOutfitListView,
     OtherArticleListView,
     OtherCollectionListView,
+    EditPersonalProfile,
 )
 
 
@@ -20,6 +21,7 @@ app_name = 'userprofiles'
 urlpatterns = [
     path('', AllProfilesView.as_view(), name='all-profiles'),  # just for debugging, only for staff
     path('my-profile/', PersonalProfileView.as_view(), name='my-profile'),
+    path('my-profile/edit/', EditPersonalProfile.as_view(), name='edit-my-profile'),
     path('my-profile/following/', PersonalFollowingListView.as_view(), name='i-am-following'),
     path('my-profile/followed-by/', PersonalFollowedByListView.as_view(), name='i-am-followed-by'),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
