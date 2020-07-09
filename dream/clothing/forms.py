@@ -18,6 +18,7 @@ class OutfitModelForm(forms.ModelForm):
                   'top',
                   'bottom',
                   'shoes',
+                  'image',
                   ]
 
     def save(self):
@@ -51,6 +52,7 @@ class ArticleModelForm(forms.ModelForm):
                   'cut',
                   'pattern',
                   'material',
+                  'image',
                   ]
 
     def save(self):
